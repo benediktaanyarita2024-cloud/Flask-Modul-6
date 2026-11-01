@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Meteorit</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 30px; background: #f4f4f4; }
+        .stats { display: flex; gap: 15px; margin-bottom: 20px; }
+        .card { background: white; padding: 15px; border-radius: 8px; flex: 1; }
+        .card h3 { margin: 0; color: gray; font-size: 14px; }
+        .card p { margin: 5px 0 0; font-size: 26px; font-weight: bold; }
+        .chart { background: white; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Meteorit</h1>
+
+    <!-- Ringkasan dataset -->
+    <div class="stats">
+        <div class="card"><h3>Total Meteorit</h3><p>{{ total }}</p></div>
+        <div class="card"><h3>Rata-rata Massa (gram)</h3><p>{{ rata_massa }}</p></div>
+        <div class="card"><h3>Terlihat Jatuh (Fell)</h3><p>{{ fell }}</p></div>
+        <div class="card"><h3>Ditemukan (Found)</h3><p>{{ found }}</p></div>
+    </div>
+
+    <!-- Tempat grafik -->
+    <div class="chart" id="grafik0"></div>
+    <div class="chart" id="grafik1"></div>
+    <div class="chart" id="grafik2"></div>
+    <div class="chart" id="grafik3"></div>
+
+    <script>
+        // Data grafik dari app.py
+        var graphs = {{ graphs | tojson }};
+        for (var i = 0; i < graphs.length; i++) {
+            var fig = JSON.parse(graphs[i]);
+            Plotly.newPlot("grafik" + i, fig.data, fig.layout);
+        }
+    </script>
+</body>
+</html>
